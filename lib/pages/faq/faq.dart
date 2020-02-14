@@ -28,15 +28,9 @@ class FaqPageState extends State<FaqPage> {
         }
     }
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text("FAQ",style: TextStyle(color: Color(0xffffc021),fontSize: 25.0))
-            ),
-            body: ListView.builder(
+    Widget _buildWidget(){
+        if(faq != null){
+            return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: faq.faqs.length,
@@ -49,7 +43,25 @@ class FaqPageState extends State<FaqPage> {
                         ),
                     );
                 },
-            ), // This trailing comma makes auto-formatting nicer for build methods.
+            );
+        }else{
+            return Container(
+                child: Center(
+                    child: CircularProgressIndicator(),
+                )
+            );
+        }
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+                backgroundColor: Colors.black,
+                title: Text("FAQ",style: TextStyle(color: Color(0xffffc021),fontSize: 25.0))
+            ),
+            body: _buildWidget() // This trailing comma makes auto-formatting nicer for build methods.
         );
     }
 }

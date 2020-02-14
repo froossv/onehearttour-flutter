@@ -44,15 +44,9 @@ class HomePageState extends State<HomePage> {
         }
     }
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text("One Heart Tour",style: TextStyle(color: Color(0xffffc021),fontSize: 25.0),),
-            ),
-            body: ListView.builder(
+    Widget _buildWidget(){
+        if(postUrls != null){
+            return ListView.builder(
                 controller: _scrollController,
                 itemCount: postUrls.length,
                 itemBuilder: (BuildContext context, int index){
@@ -85,7 +79,23 @@ class HomePageState extends State<HomePage> {
                         return Container();
                     }
                 },
-            ), // This trailing comma makes auto-formatting nicer for build methods.
+            );
+        }else{
+            return Container(
+                child: CircularProgressIndicator(),
+            );
+        }
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+                backgroundColor: Colors.black,
+                title: Text("One Heart Tour",style: TextStyle(color: Color(0xffffc021),fontSize: 25.0),),
+            ),
+            body: _buildWidget(), // This trailing comma makes auto-formatting nicer for build methods.
         );
     }
 }

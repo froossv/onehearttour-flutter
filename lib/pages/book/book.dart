@@ -56,6 +56,61 @@ class BookPageState extends State<BookPage> {
         }
     }
 
+    Widget _buildWidget(){
+        if(events != null){
+            return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: events.events.length,
+                itemBuilder: (BuildContext context,int index){
+                    return ExpansionTile(
+                        leading: Icon(Icons.location_city,color: Color(0xffffc021),),
+                        title: Text(events.events[index].location, style: TextStyle(color: Color(0xffffc021)),),
+                        subtitle: Text(events.events[index].venue, style: TextStyle(color: Color(0xffffc021)),),
+                        trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffffc021),),
+                        children: <Widget>[
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                    Column(
+                                        children: <Widget>[
+                                            Icon(Icons.date_range,color: Color(0xffffc021),),
+                                            Padding(
+                                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                                child: Text(events.events[index].date, style: TextStyle(color: Color(0xffffc021)),),
+                                            )
+                                        ],
+                                    ),
+                                    GestureDetector(
+                                        child: Column(
+                                            children: <Widget>[
+                                                Icon(IconData(0xF493,fontFamily: CupertinoIcons.iconFont,fontPackage: CupertinoIcons.iconFontPackage),color: Color(0xffffc021),),
+                                                Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                                                    child: Text('Book Tickets', style: TextStyle(color: Color(0xffffc021)),),
+                                                )
+                                            ],
+                                        ),
+                                        onTap: (){
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (BuildContext context) =>
+                                                    MyWebView(url:events.events[index].link)
+                                            ));
+                                        },
+                                    )
+                                ],
+                            ),
+                        ],
+                    );
+                }
+            );
+        }else{
+            return Container(
+                child: CircularProgressIndicator(),
+            );
+        }
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -71,52 +126,7 @@ class BookPageState extends State<BookPage> {
                         margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
                         child: Image.asset('assets/rahman.jpg'),
                     ),
-                    ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: events.events.length,
-                        itemBuilder: (BuildContext context,int index){
-                            return ExpansionTile(
-                                leading: Icon(Icons.location_city,color: Color(0xffffc021),),
-                                title: Text(events.events[index].location, style: TextStyle(color: Color(0xffffc021)),),
-                                subtitle: Text(events.events[index].venue, style: TextStyle(color: Color(0xffffc021)),),
-                                trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffffc021),),
-                                children: <Widget>[
-                                    Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                            Column(
-                                                children: <Widget>[
-                                                    Icon(Icons.date_range,color: Color(0xffffc021),),
-                                                    Padding(
-                                                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                                                        child: Text(events.events[index].date, style: TextStyle(color: Color(0xffffc021)),),
-                                                    )
-                                                ],
-                                            ),
-                                            GestureDetector(
-                                                child: Column(
-                                                    children: <Widget>[
-                                                        Icon(IconData(0xF493,fontFamily: CupertinoIcons.iconFont,fontPackage: CupertinoIcons.iconFontPackage),color: Color(0xffffc021),),
-                                                        Padding(
-                                                            padding: EdgeInsets.symmetric(vertical: 10.0),
-                                                            child: Text('Book Tickets', style: TextStyle(color: Color(0xffffc021)),),
-                                                        )
-                                                    ],
-                                                ),
-                                                onTap: (){
-                                                    Navigator.of(context).push(MaterialPageRoute(
-                                                       builder: (BuildContext context) =>
-                                                           MyWebView(url:events.events[index].link)
-                                                    ));
-                                                },
-                                            )
-                                        ],
-                                    ),
-                                ],
-                            );
-                        },
-                    ),
+                    Container(child: _buildWidget()),
                 ],
             ), // This trailing comma makes auto-formatting nicer for build methods.
         );

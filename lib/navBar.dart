@@ -53,12 +53,6 @@ class BottomNavBarState extends State<BottomNavBar>{
         currentIndex: selectedIndex,
         onTap: onItemTapped,
       ),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: (){},
-//        tooltip: 'Increment',
-//        child: Icon(Icons.add),
-//        elevation: 2.0,
-//      ),
     );
   }
 }
